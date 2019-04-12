@@ -1,0 +1,35 @@
+.bigAd {
+  height: 50%;
+  width: 50%;
+  position: fixed;
+  z-index: 1;
+  bottom: 0;
+  overflow-x: hidden;
+  background-color: red;
+  /*padding-top: 20px;*/
+  left: 0;
+}
+
+.localAd {
+  height: 50%;
+  width: 50%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+  background-color: pink;
+  /*padding-top: 20px;*/
+  left: 0;
+}
+
+.map {
+  position: fixed;
+  height: 100%;
+  width: 50%;
+  z-index: 1;
+  top: 0%;
+  right: 0;
+  overflow-x: hidden;
+  background-color: green;
+  /* left: 0; */
+}
