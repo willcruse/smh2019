@@ -1,13 +1,17 @@
 .bigAd {
-  height: 50%;
+  height: 100%;
   width: 50%;
   position: fixed;
   z-index: 1;
   bottom: 0;
   overflow-x: hidden;
-  background-color: pink;
+  background-image: url(./cityTourism.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: white;
+  background-position: center;
   /*padding-top: 20px;*/
-  left: 0;
+  right: 0;
 }
 
 .localAd {
@@ -33,7 +37,8 @@
   width: 50%;
   z-index: 1;
   top: 0%;
-  right: 0;
+  left: 0;
+  bottom: 0;
   overflow-x: hidden;
   background-color: green;
   /* left: 0; */
