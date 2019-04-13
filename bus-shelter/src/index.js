@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import localAdImg from './localAdImg.png';
-
+import loadingCircle from './loadingCircle.gif';
 
 var count = 0;
 
@@ -31,7 +31,7 @@ class Info extends React.Component {
   }
 
   render() {
-    return <table><tbody><tr><td>Time</td><td>{this.props.data.tim}</td></tr><tr><td>Weather</td><td>{this.props.data.fore}</td></tr><tr><td>Temp</td><td>{this.props.data.temp + "C"}</td></tr></tbody></table>;
+    return <font face="Courier New" size="6"><table><tbody><tr><td>Time</td><td>{this.props.data.tim}</td></tr><tr><td>Weather</td><td>{this.props.data.fore}</td></tr><tr><td>Temp</td><td>{this.props.data.temp + "°C"}</td></tr></tbody></table></font>;
   }
 
 }
@@ -52,7 +52,6 @@ class OtherComp extends React.Component {
       count: 0,
       res: LocalAd()
     };
-
   }
 
   componentDidMount() {
@@ -95,8 +94,8 @@ class OtherComp extends React.Component {
   }
 }
 
-function Loading() {
-  return <h1>Loading</h1>;
+function Loading(props) {
+  return <img src = {loadingCircle} alt = "loadingCircle" align="center"/>;
 }
 
 function App() {
@@ -110,11 +109,12 @@ function App() {
       <BusTimeComp names={names} destinations={destinations} times={times}/>
     </div>
      <div className="other">
-      <Loading />
+       <Loading />
     </div>
     {/*<div className="map">
     </div> */}
   </div>
+
   );
 }
 
@@ -127,6 +127,7 @@ function LoadedApp(){
     <div>
     <div className="busTimes">
       <BusTimeComp names={names} destinations={destinations} times={times}/>
+
     </div>
      <div className="other" >
       <Info data={weather}/>
