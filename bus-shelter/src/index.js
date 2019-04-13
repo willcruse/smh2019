@@ -1,8 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import $ from 'jquery';
 import './index.css';
 import localAdImg from './localAdImg.png';
 import loadingCircle from './loadingCircle.gif';
+<<<<<<< Updated upstream
 import nMAV from './National_Monument_at_Vítkov.JPG';
 import nG from './National_Gallery.jpg';
 import nM from './National_Museum.jpg';
@@ -10,6 +12,9 @@ import tPT from './The_Powder_Tower.jpg';
 import mOC from './Museum_of_Communism.jpg';
 import bS from './busstop.png'
 import * as $ from 'jquery';
+=======
+import 'bootstrap/dist/css/bootstrap.css';
+>>>>>>> Stashed changes
 
 var count = 0;
 var attr = [];
