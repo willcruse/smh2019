@@ -1,10 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import $ from 'jquery';
 import './index.css';
 import localAdImg from './localAdImg.png';
 import loadingCircle from './loadingCircle.gif';
-<<<<<<< Updated upstream
 import nMAV from './National_Monument_at_Vítkov.JPG';
 import nG from './National_Gallery.jpg';
 import nM from './National_Museum.jpg';
@@ -12,26 +10,21 @@ import tPT from './The_Powder_Tower.jpg';
 import mOC from './Museum_of_Communism.jpg';
 import bS from './busstop.png'
 import * as $ from 'jquery';
-=======
-import 'bootstrap/dist/css/bootstrap.css';
->>>>>>> Stashed changes
 
 var count = 0;
-var attr = [];
+var attr = []
 
-function changeVisibility() {
-  for (var i = 0; i < attr.length; i++) {
-    attr[i].setVisibility(!attr[i].getVisibility());
-  }
-}
 function BusTimeComp(props) {
-  const indexes = [0, 1, 2, 3, 4];
+  var indexes = []
+  for (var i = 0; i < busTimes.length; i++) {
+    indexes.push(i);
+  }
   if (busTimes.length > 0) {
   const mapper = indexes.map((i) =>
     (<tr>
-      <td><button onClick={(e) => alert(i)}>{props.busTimes[i]["Transport"]["name"]}</button></td>
-      <td><button onClick={(e) => alert(i)}>{props.busTimes[i]["Transport"]["dir"]}</button></td>
-      <td><button onClick={(e) => alert(i)}>{props.busTimes[i]["time"].substring(11, 16)}</button></td>
+      <td><button onClick={(e) => alert(i)}>{busTimes[i]["Transport"]["name"]}</button></td>
+      <td><button onClick={(e) => alert(i)}>{busTimes[i]["Transport"]["dir"]}</button></td>
+      <td><button onClick={(e) => alert(i)}>{busTimes[i]["time"].substring(11, 16)}</button></td>
     </tr>)
 );
 var element = (<table><thead><tr><th>Bus</th><th>Destination</th><th>Time</th></tr></thead><tbody>{mapper}</tbody></table>);
@@ -300,13 +293,14 @@ function fetchBusTimes() {
       app_code: "0PFpoPJe5cI9dfxiCwJrWw"
     },
     success: function (data) {
-      var temp = []
+      var temp = [];
       for(var dep in data["Res"]["NextDepartures"]["Dep"]) {
         if(data["Res"]["NextDepartures"]["Dep"][dep]["Transport"]["name"] === "207" &&
             data["Res"]["NextDepartures"]["Dep"][dep]["Transport"]["dir"] === "Staroměstská") {
               temp.push(data["Res"]["NextDepartures"]["Dep"][dep]);
         }
       }
+      console.log(busTimes);
       busTimes = temp;
     }
   });
