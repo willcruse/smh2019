@@ -1,7 +1,9 @@
 Web App Change Remotely
 Modular Adaptible
 Can be placed in other places eg Mall
-Local ADs 
+Local ADs
 Interactive Maps
 Weather Response (Air Con)
 Scalable - Different Sized Screens
+No live bus :
+  -Needed Data not here
