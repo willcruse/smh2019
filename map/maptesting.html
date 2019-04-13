@@ -11,6 +11,7 @@
   </head>
   <body>
   <div style="width: 640px; height: 480px" id="mapContainer"></div>
+  <button id = "attractions" onClick = changeVisibility(attr)>change visibility</button>
   <script>
   var date = new Date().toLocaleString("en-US", {timeZone: "Europe/Prague"});
   date = new Date(date);
@@ -137,11 +138,41 @@ console.log("calcTime result is " + calcTime('+2'));
 // Add the polyline to the map:
   map.addObject(polyline);
 
-  //var attrLoc = ["lat: 50.088761, lng: 14.450217", "lat: 50.102308, lng: 14.434122", "lat: 50.079469, lng: 14.434355", "lat: 50.087486, lng: 14.428314", "lat: 50.088154, lng: 14.430731"];
-  //var attr = [];
+  var attrLoc = [{lat: 50.088761, lng: 14.450217}, {lat: 50.102308, lng: 14.434122}, {lat: 50.079469, lng: 14.434355}, {lat: 50.087486, lng: 14.428314}, {lat: 50.088154, lng: 14.430731}];
+  var attrLogo = ['icon/National_Monument_at_Vítkov.JPG', 'icon/National_Gallery.jpg', 'icon/National_Museum.jpg', 'icon/The_Powder_Tower.jpg', 'icon/Museum_of_Communism.jpg'];
+  var attr = [];
 
-  //attrLoc.forEach(console.log())
+  for(var i = 0; i < attrLoc.length; i++) {
+      var icon = new H.map.Icon(attrLogo[i]);
 
+      var marker = new H.map.Marker(attrLoc[i], {icon: icon});
+
+      map.addObject(marker);
+
+      attr.push(marker);
+  }
+
+ function changeVisibility(attr) {
+   if(attr[0].getVisibility()) {
+     attractionsInvisible(attr);
+   } else {
+     attractionsVisible(attr);
+   }
+ }
+
+ document.getElementById("attractions").onClick = changeVisibility(attr);
+
+  function attractionsVisible(attr) {
+    for(var i = 0; i < attr.length; i++) {
+      attr[i].setVisibility(true);
+    }
+  }
+
+  function attractionsInvisible(attr) {
+    for(var i = 0; i < attr.length; i++) {
+      attr[i].setVisibility(false);
+    }
+  }
 
 
   </script>
