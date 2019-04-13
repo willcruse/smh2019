@@ -6,59 +6,12 @@ import './index.css';
 import localAdImg from './localAdImg.png';
 import cityTourism from './cityTourism.png';
 
-// $.ajax({
-//   url: 'https://transit.api.here.com/v3/board.json',
-//   type: 'GET',
-//   dataType: 'jsonp',
-//   jsonp: 'callbackFunc',
-//   data: {
-//     lang: "en",
-//     stnId: "409905340",
-//     time: calcTime('+2'),
-//     string: "1",
-//     app_id: "GXp8WND2pdawXC8v30Jl",
-//     app_code: "0PFpoPJe5cI9dfxiCwJrWw"
-//   },
-//   success: function (data) {
-//     console.log(JSON.stringify(data));
-//     var count = 0;
-//     var obj;
-//     for(var dep in data["Res"]["NextDepartures"]["Dep"]) {
-//       //console.log(dep);
-//       if(data["Res"]["NextDepartures"]["Dep"][dep]["Transport"]["name"] == "207" &&
-//           data["Res"]["NextDepartures"]["Dep"][dep]["Transport"]["dir"] == "Staroměstská") {
-//         console.log(data["Res"]["NextDepartures"]["Dep"][dep]["time"]);
-//         obj[count] = data["Res"]["NextDepartures"]["Dep"][dep]["time"];
-//         count++;
-//       }
-//     }
-//     if (count < 5) {
-//       for (;count<5;count++) {
-//         obj[count] = "";
-//       }
-//     }
-//
-//   }
-// });
-
-function calcTime(offset) {
-  var d = new Date();
-  var utc = d.getTime() + (d.getTimezoneOffset() * 60000);
-  var nd = new Date(utc + (3600000*offset));
-  var string = nd.toLocaleString();
-  var year = string.substring(6, 10);
-  var month = string.substring(3, 5);
-  var day = string.substring(0, 2);
-  var time = string.substring(12);
-  return year + "-" + month + "-" + day + "T" + time;
-}
-
 function LocalAd(props){
-  return <img src = {props.localAdImg} alt = "localAdImg" />;
+  return <div className="localAd"/>;
 }
 
 function BigAd(props){
-  return <img src = {props.localAdImg} alt = "cityTourism" />;
+  return <div className="bigAd"/>;
 }
 
 class MapContainer extends React.Component {
@@ -135,7 +88,7 @@ class MapContainer extends React.Component {
     this.map.addEventListener('tap', function(evt) {
     // Log 'tap' and 'mouse' events:
     if(ii) {
-        kk.setZoom(13.7, true);
+        kk.setZoom(13, true);
       ii = false;
     } else {
       kk.setZoom(16, true);
@@ -165,7 +118,7 @@ function LoadedApp() {
       </div>
 
       <div className="bigAd">
-      <BigAd ad={localAdImg} />
+      <BigAd ad={cityTourism} />
       </div>
     </div>
   )
@@ -187,7 +140,7 @@ function App() {
     </div>
 
     <div className="bigAd">
-    <BigAd ad={localAdImg} />
+    <BigAd ad={cityTourism} />
     </div>
     </div>
   );
