@@ -19,6 +19,7 @@ function BusTimeComp(props) {
   for (var i = 0; i < busTimes.length; i++) {
     indexes.push(i);
   }
+  // console.log(busTimes);
   if (busTimes.length > 0) {
   const mapper = indexes.map((i) =>
     (<tr>
@@ -65,6 +66,11 @@ class MapContainer extends React.Component {
         center: this.center,
     });
 
+    if (resultOfRoute!=null){
+      console.log(resultOfRoute);
+      var paths = resultOfRoute["Res"];
+      console.log(paths);
+    }
     var center = this.center;
     var points = [
       {lat: 50.088368, lng: 14.415394},
@@ -241,6 +247,7 @@ function LoadedApp(){
 }
 
 var weather = {};
+var resultOfRoute = {};
 var busTimes = [];
 
 function fetchData() {
@@ -293,13 +300,11 @@ function fetchBusTimes() {
       app_code: "0PFpoPJe5cI9dfxiCwJrWw"
     },
     success: function (data) {
+      // console.log(data);
       var temp = [];
+      console.log()
       for(var dep in data["Res"]["NextDepartures"]["Dep"]) {
-        // if(data["Res"]["NextDepartures"]["Dep"][dep]["Transport"]["name"] === "207" &&
-        //     data["Res"]["NextDepartures"]["Dep"][dep]["Transport"]["dir"] === "Staroměstská") {
-        //       temp.push(data["Res"]["NextDepartures"]["Dep"][dep]);
-        // }
-        if (temp.length <= 5) {
+        if (temp.length < 8 && (true || data["Res"]["NextDepartures"]["Dep"][dep]["Stn"]["id"]=="409905335")) {
           temp.push(data["Res"]["NextDepartures"]["Dep"][dep]);
         } else {
           break;
@@ -310,6 +315,15 @@ function fetchBusTimes() {
   });
 }
 
+function fetchRoutesThrough() {
+  fetch('https://transit.api.here.com/v3/lines/by_stn_id.json?app_id=GXp8WND2pdawXC8v30Jl&app_code=0PFpoPJe5cI9dfxiCwJrWw&stnId=409905335&graph=1')
+  .then(function (response) {
+    return response.json();
+  }).then(function (myJson) {
+    resultOfRoute = myJson;
+    console.log(resultOfRoute);
+  });
+}
 
 const element = App();
 ReactDOM.render(
@@ -318,11 +332,11 @@ ReactDOM.render(
 );
 
 
-
 setInterval(
   function () {
     fetchData();
     fetchBusTimes();
+    // fetchRoutesThrough();
     const ak = LoadedApp();
     ReactDOM.render(ak, document.getElementById("root"));
   }
