@@ -295,12 +295,16 @@ function fetchBusTimes() {
     success: function (data) {
       var temp = [];
       for(var dep in data["Res"]["NextDepartures"]["Dep"]) {
-        if(data["Res"]["NextDepartures"]["Dep"][dep]["Transport"]["name"] === "207" &&
-            data["Res"]["NextDepartures"]["Dep"][dep]["Transport"]["dir"] === "Staroměstská") {
-              temp.push(data["Res"]["NextDepartures"]["Dep"][dep]);
+        // if(data["Res"]["NextDepartures"]["Dep"][dep]["Transport"]["name"] === "207" &&
+        //     data["Res"]["NextDepartures"]["Dep"][dep]["Transport"]["dir"] === "Staroměstská") {
+        //       temp.push(data["Res"]["NextDepartures"]["Dep"][dep]);
+        // }
+        if (temp.length <= 5) {
+          temp.push(data["Res"]["NextDepartures"]["Dep"][dep]);
+        } else {
+          break;
         }
       }
-      console.log(busTimes);
       busTimes = temp;
     }
   });
