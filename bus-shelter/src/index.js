@@ -1,10 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import $ from 'jquery';
 import './index.css';
 import localAdImg from './localAdImg.png';
 import loadingCircle from './loadingCircle.gif';
-<<<<<<< Updated upstream
 import nMAV from './National_Monument_at_Vítkov.JPG';
 import nG from './National_Gallery.jpg';
 import nM from './National_Museum.jpg';
@@ -12,9 +10,7 @@ import tPT from './The_Powder_Tower.jpg';
 import mOC from './Museum_of_Communism.jpg';
 import bS from './busstop.png'
 import * as $ from 'jquery';
-=======
 import 'bootstrap/dist/css/bootstrap.css';
->>>>>>> Stashed changes
 
 var count = 0;
 
@@ -169,7 +165,9 @@ class Info extends React.Component {
   }
 
   render() {
-    return (<font face="Courier New" size="6"><table><tbody><tr><td>Time</td><td>{this.props.data.tim}</td></tr><tr><td>Weather</td><td>{this.props.data.fore}</td></tr><tr><td>Temp</td><td>{this.props.data.temp + "°C"}</td></tr></tbody></table></font>);
+    return (
+      <font face="Courier New" size="6"><table><tbody><tr><td>Time</td><td>{this.props.data.tim}</td></tr>
+      <tr><td>Weather</td><td>{this.props.data.fore}</td><td>Temp</td><td>{this.props.data.temp + "°C"}</td></tr></tbody></table></font>);
   }
 
 }
