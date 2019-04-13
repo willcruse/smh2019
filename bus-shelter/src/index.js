@@ -13,19 +13,22 @@ import * as $ from 'jquery';
 import 'bootstrap/dist/css/bootstrap.css';
 
 var count = 0;
+var attr = []
 
 function BusTimeComp(props) {
-  const indexes = [0, 1, 2, 3, 4];
-  console.log(props.busTimes);
+  var indexes = []
+  for (var i = 0; i < busTimes.length; i++) {
+    indexes.push(i);
+  }
   if (busTimes.length > 0) {
   const mapper = indexes.map((i) =>
     (<tr>
-      <td><button onClick={(e) => alert(i)}>{props.busTimes[i]["Transport"]["name"]}</button></td>
-      <td><button onClick={(e) => alert(i)}>{props.busTimes[i]["Transport"]["dir"]}</button></td>
-      <td><button onClick={(e) => alert(i)}>{props.busTimes[i]["Time"]["name"]}</button></td>
+      <td><button onClick={(e) => alert(i)}>{busTimes[i]["Transport"]["name"]}</button></td>
+      <td><button onClick={(e) => alert(i)}>{busTimes[i]["Transport"]["dir"]}</button></td>
+      <td><button onClick={(e) => alert(i)}>{busTimes[i]["time"].substring(11, 16)}</button></td>
     </tr>)
 );
-var element = (<table><thead><tr><th>Bus</th><th>Destination</th><th>Time To Arrival</th></tr></thead><tbody>{mapper}</tbody></table>);
+var element = (<table><thead><tr><th>Bus</th><th>Destination</th><th>Time</th></tr></thead><tbody>{mapper}</tbody></table>);
 return element;
 }
 return <Loading />;
@@ -78,6 +81,7 @@ class MapContainer extends React.Component {
       {lat: 50.090625, lng: 14.469391},
       {lat: 50.091341, lng: 14.468275}
     ];
+
     var kk = this.map;
     var linestring = new window.H.geo.LineString();
     points.forEach(function(point) {
@@ -98,7 +102,7 @@ class MapContainer extends React.Component {
 
       var attrLoc = [{lat: 50.088761, lng: 14.450217}, {lat: 50.102308, lng: 14.434122}, {lat: 50.079469, lng: 14.434355}, {lat: 50.087486, lng: 14.428314}, {lat: 50.088154, lng: 14.430731}];
       var attrLogo = [nMAV, nG, nM, tPT, mOC];
-      var attr = [];
+      attr = [];
 
       for(var i = 0; i < attrLoc.length; i++) {
 
@@ -132,33 +136,13 @@ class MapContainer extends React.Component {
   });
 }
 
-attractionsVisible(attr) {
-  for(var i = 0; i < attr.length; i++) {
-    attr[i].setVisibility(true);
-  }
-}
-
-attractionsInvisible(attr) {
-  for(var i = 0; i < attr.length; i++) {
-    attr[i].setVisibility(false);
-  }
-}
-
-changeVisibility(attr) {
-  if(attr[0].getVisibility()) {
-    this.attractionsInvisible(attr);
-  } else {
-    this.attractionsVisible(attr);
-  }
-}
-
-
-
 render() {
   return (<div id="here-map" className="map"/>);
   }
 }
 
+function Info(props) {
+    return (<font face="Courier New" size="6"><table><tbody><tr><td>Time</td><td>{props.tim}</td></tr><tr><td>Weather</td><td>{props.fore}</td></tr><tr><td>Temp</td><td>{props .temp + "°C"}</td></tr></tbody></table></font>);
 class Info extends React.Component {
   constructor(props) {
     super(props);
@@ -193,7 +177,7 @@ class OtherComp extends React.Component {
   componentDidMount() {
     this.timerID = setInterval (
       () => this.change(),
-      45000
+      15000
     );
   }
 
@@ -205,7 +189,7 @@ class OtherComp extends React.Component {
     if (this.state.count % 2 === 0) {
       this.setState({
         count: count+1,
-        res: Info()
+        res: Info(weather)
       });
       clearInterval(this.timerID);
       this.timerID = setInterval (
@@ -220,7 +204,7 @@ class OtherComp extends React.Component {
       clearInterval(this.timerID);
       this.timerID = setInterval (
         () => this.change(),
-        45000
+        15000
       );
     }
   }
@@ -243,7 +227,9 @@ function App() {
      <div className="other">
        <Loading />
     </div>
+    <div className="map">
     <MapContainer />
+    </div>
   </div>
 
   );
@@ -257,9 +243,11 @@ function LoadedApp(){
 
     </div>
      <div className="other" >
-      <Info data={weather}/>
+      <OtherComp data={weather}/>
     </div>
+    <div className="map">
     <MapContainer />
+    </div>
   </div>
   );
 }
@@ -317,11 +305,16 @@ function fetchBusTimes() {
       app_code: "0PFpoPJe5cI9dfxiCwJrWw"
     },
     success: function (data) {
-      var temp = []
+      var temp = [];
       for(var dep in data["Res"]["NextDepartures"]["Dep"]) {
-        if(data["Res"]["NextDepartures"]["Dep"][dep]["Transport"]["name"] === "207" &&
-            data["Res"]["NextDepartures"]["Dep"][dep]["Transport"]["dir"] === "Staroměstská") {
-              temp.push(data["Res"]["NextDepartures"]["Dep"][dep]);
+        // if(data["Res"]["NextDepartures"]["Dep"][dep]["Transport"]["name"] === "207" &&
+        //     data["Res"]["NextDepartures"]["Dep"][dep]["Transport"]["dir"] === "Staroměstská") {
+        //       temp.push(data["Res"]["NextDepartures"]["Dep"][dep]);
+        // }
+        if (temp.length <= 5) {
+          temp.push(data["Res"]["NextDepartures"]["Dep"][dep]);
+        } else {
+          break;
         }
       }
       busTimes = temp;

@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import $ from 'jquery';
 
 import './index.css';
 import localAdImg from './localAdImg.png';
