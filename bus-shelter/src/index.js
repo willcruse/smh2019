@@ -10,7 +10,6 @@ import tPT from './The_Powder_Tower.jpg';
 import mOC from './Museum_of_Communism.jpg';
 import bS from './busstop.png'
 import * as $ from 'jquery';
-import 'bootstrap/dist/css/bootstrap.css';
 
 var count = 0;
 var attr = []
@@ -149,17 +148,6 @@ render() {
 
 function Info(props) {
     return (<font face="Courier New" size="6"><table><tbody><tr><td>Time</td><td>{props.tim}</td></tr><tr><td>Weather</td><td>{props.fore}</td></tr><tr><td>Temp</td><td>{props .temp + "°C"}</td></tr></tbody></table></font>);
-class Info extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <font face="Courier New" size="6"><table><tbody><tr><td>Time</td><td>{this.props.data.tim}</td></tr>
-      <tr><td>Weather</td><td>{this.props.data.fore}</td><td>Temp</td><td>{this.props.data.temp + "°C"}</td></tr></tbody></table></font>);
-  }
-
 }
 
 function calcTime(offset) {
