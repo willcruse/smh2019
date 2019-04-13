@@ -1,0 +1,149 @@
+<html>
+  <head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <meta name="viewport" content="initial-scale=1.0, width=device-width"/>
+    <script src="http://js.api.here.com/v3/3.0/mapsjs-core.js"
+       type="text/javascript" charset="utf-8"></script>
+    <script src="http://js.api.here.com/v3/3.0/mapsjs-service.js"
+       type="text/javascript" charset="utf-8"></script>
+    <script src="http://js.api.here.com/v3/3.0/mapsjs-mapevents.js"
+       type="text/javascript" charset="utf-8"></script>
+  </head>
+  <body>
+  <div style="width: 640px; height: 480px" id="mapContainer"></div>
+  <script>
+  var date = new Date().toLocaleString("en-US", {timeZone: "Europe/Prague"});
+  date = new Date(date);
+  //console.log(date.toLocaleTimeString());
+  date = JSON.stringify(date.toLocaleTimeString());
+  //console.log(date);
+
+  function calcTime(offset) {
+
+    d = new Date();
+
+    utc = d.getTime() + (d.getTimezoneOffset() * 60000);
+
+    nd = new Date(utc + (3600000*offset));
+
+    string = nd.toLocaleString();
+
+    year = string.substring(6, 10);
+    month = string.substring(3, 5);
+    day = string.substring(0, 2);
+    time = string.substring(12);
+
+    return year + "-" + month + "-" + day + "T" + time;
+
+}
+
+// get Bombay time
+console.log("calcTime result is " + calcTime('+2'));
+  $.ajax({
+    url: 'https://transit.api.here.com/v3/board.json',
+    type: 'GET',
+    dataType: 'jsonp',
+    jsonp: 'callbackFunc',
+    data: {
+      lang: "en",
+      stnId: "409905340",
+      time: calcTime('+2'),
+      string: "1",
+      app_id: "GXp8WND2pdawXC8v30Jl",
+      app_code: "0PFpoPJe5cI9dfxiCwJrWw"
+    },
+    success: function (data) {
+      console.log(JSON.stringify(data));
+
+      for(dep in data["Res"]["NextDepartures"]["Dep"]) {
+        //console.log(dep);
+        if(data["Res"]["NextDepartures"]["Dep"][dep]["Transport"]["name"] == "207" &&
+            data["Res"]["NextDepartures"]["Dep"][dep]["Transport"]["dir"] == "Staroměstská") {
+          console.log(data["Res"]["NextDepartures"]["Dep"][dep]["time"]);
+        }
+      }
+    }
+  });
+
+    // Initialize the platform object:
+    var platform = new H.service.Platform({
+    'app_id': 'GXp8WND2pdawXC8v30Jl',
+    'app_code': '0PFpoPJe5cI9dfxiCwJrWw'
+    });
+
+    // Obtain the default map types from the platform object
+    var maptypes = platform.createDefaultLayers();
+    var center = {lat: 50.090463, lng: 14.439198}
+    // Instantiate (and display) a map object:
+    var map = new H.Map(
+    document.getElementById('mapContainer'),
+    maptypes.normal.traffic,
+    {
+      zoom: 16,
+      center: center
+    });
+
+    // Enable the event system on the map instance:
+    var mapEvents = new H.mapevents.MapEvents(map);
+    var zoomedIn = true;
+// Add event listener:
+    map.addEventListener('tap', function(evt) {
+    // Log 'tap' and 'mouse' events:
+      if(zoomedIn) {
+        map.setZoom(13.7, true);
+        zoomedIn = false;
+      } else {
+        map.setZoom(16, true);
+        zoomedIn = true;
+      }
+    });
+
+    var points = [
+      {lat: 50.088368, lng: 14.415394},
+      {lat: 50.091416, lng: 14.417622},
+      {lat: 50.093075, lng: 14.423298},
+      {lat: 50.091828, lng: 14.427658},
+      {lat: 50.088687, lng: 14.429805},
+      {lat: 50.090066, lng: 14.435381},
+      center,
+      {lat: 50.086932, lng: 14.445093},
+      {lat: 50.087257, lng: 14.452633},
+      {lat: 50.088884, lng: 14.461676},
+      {lat: 50.090625, lng: 14.469391},
+      {lat: 50.091341, lng: 14.468275}
+    ];
+
+    var linestring = new H.geo.LineString();
+    points.forEach(function(point) {
+      linestring.pushPoint(point);
+      if(point != center) {
+        var circle = new H.map.Circle(point, 50);
+        map.addObject(circle);
+      } else {
+        var icon = new H.map.Icon('icon/busstop.png');
+
+      // Create a marker using the previously instantiated icon:
+        var marker = new H.map.Marker(center, { icon: icon });
+
+      // Add the marker to the map:
+        map.addObject(marker);
+      }
+
+    });
+
+// Initialize a polyline with the linestring:
+  var polyline = new H.map.Polyline(linestring, { style: { lineWidth: 10 }});
+
+// Add the polyline to the map:
+  map.addObject(polyline);
+
+  //var attrLoc = ["lat: 50.088761, lng: 14.450217", "lat: 50.102308, lng: 14.434122", "lat: 50.079469, lng: 14.434355", "lat: 50.087486, lng: 14.428314", "lat: 50.088154, lng: 14.430731"];
+  //var attr = [];
+
+  //attrLoc.forEach(console.log())
+
+
+
+  </script>
+  </body>
+</html>
