@@ -152,7 +152,6 @@ function fetchData() {
        "fore": f,
        "tim": ti
      };
-     console.log("ahoy");
      const loaded = LoadedApp();
      ReactDOM.render(loaded,
      document.getElementById("root"));
@@ -165,7 +164,8 @@ ReactDOM.render(
   element,
   document.getElementById("root")
 );
-var timer = setInterval(
+
+setInterval(
   function () {
     fetchData();
     const ak = LoadedApp();
