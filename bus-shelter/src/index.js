@@ -44,8 +44,8 @@ function setRouteNa(name, dir) {
   };
 }
 
-function LocalAd(){
-  return <img src = {localAdImg} alt = "localAdImg" />;
+function LocalAd() {
+  return (<div className="localAd"></div>);
 }
 
 class MapContainer extends React.Component {
@@ -201,11 +201,11 @@ render() {
 }
 
 function Info(props) {
-    return (<font face="Courier New" size="6">
+    return (<div className="other"><font face="Courier New" size="6">
     <table><tbody>
       <tr><td colspan="2"><center><font face = "Courier New" size = "10">{props.tim}</font></center></td></tr>
       <tr><td><center><img src={props.iconsrc}></img></center></td><td><center>{props .temp + "°C"}</center></td></tr>
-    </tbody></table></font>);
+    </tbody></table></font></div>);
 }
 
 function calcTime(offset) {
@@ -294,7 +294,7 @@ function LoadedApp(){
       <BusTimeComp busTimes={busTimes}/>
 
     </div>
-     <div className="other" >
+     <div>
       <OtherComp data={weather}/>
     </div>
     <div id="mapContainer" className="map">
@@ -331,7 +331,7 @@ function fetchData() {
      const loaded = LoadedApp();
      ReactDOM.render(loaded,
      document.getElementById("root"));
-   // });
+   });
 }
 
 function fetchBusTimes() {

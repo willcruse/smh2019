@@ -15,6 +15,23 @@
   background: #d3e4ff;
   }
 
+  .localAd {
+    height: 50%;
+    width: 50%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    overflow-x: hidden;
+    background-image: url(./localAdImg.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-color: red;
+    background-position: center;
+
+    /*padding-top: 20px;*/
+    right: 0;
+  }
+
 .other {
   height: 50%;
   width: 50%;
