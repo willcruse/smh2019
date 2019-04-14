@@ -201,7 +201,11 @@ render() {
 }
 
 function Info(props) {
-    return (<font face="Courier New" size="6"><table><tbody><tr><td>Time</td><td>{props.tim}</td></tr><tr><td>Weather</td><td>{props.fore}</td></tr><tr><td>Temp</td><td>{props .temp + "°C"}</td></tr></tbody></table></font>);
+    return (<font face="Courier New" size="6">
+    <table><tbody>
+      <tr><td colspan="2"><center><font face = "Courier New" size = "10">{props.tim}</font></center></td></tr>
+      <tr><td><center><img src={props.iconsrc}></img></center></td><td><center>{props .temp + "°C"}</center></td></tr>
+    </tbody></table></font>);
 }
 
 function calcTime(offset) {
@@ -309,9 +313,9 @@ function fetchData() {
    .then(function (response) {
      return response.json();
    }).then(function (myJson) {
-     // console.log("")
-     // var t = Math.round(myJson["list"][1]["main"]["temp"]-273);
-     // var f = myJson["list"][1]["weather"][0]["main"]
+     var t = Math.round(myJson["list"][1]["main"]["temp"]-273);
+     var f = myJson["list"][1]["weather"][0]["main"];
+     var iconsrc = "http://openweathermap.org/img/w/" + myJson["list"][1]["weather"][0]["icon"] + ".png";
      var ti = calcTime("+2");
      // weather = {
      //   "temp": t,
@@ -319,12 +323,12 @@ function fetchData() {
      //   "tim": ti
      // };
      weather = {
-       "temp": 30,
-       "fore": "cloud",
-        "tim": ti
-     }
-   });
-     const loaded = LoadedApp(routeNa);
+       "temp": t,
+       "fore": f,
+       "tim": ti,
+       "iconsrc": iconsrc
+     };
+     const loaded = LoadedApp();
      ReactDOM.render(loaded,
      document.getElementById("root"));
    // });
@@ -397,6 +401,7 @@ fetchRoutesThrough();
 
 setInterval(
   function () {
+    fetchBusTimes();
     fetchData();
     fetchBusTimes();
     const ak = LoadedApp(routeNa);
