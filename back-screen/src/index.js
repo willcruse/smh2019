@@ -4,6 +4,15 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import localAdImg from './localAdImg.png';
 import cityTourism from './cityTourism.png';
+import './index.css';
+import loadingCircle from './loadingCircle.gif';
+import nMAV from './National_Monument_at_Vítkov.JPG';
+import nG from './National_Gallery.jpg';
+import nM from './National_Museum.jpg';
+import tPT from './The_Powder_Tower.jpg';
+import mOC from './Museum_of_Communism.jpg';
+import bS from './busstop.png'
+
 
 function LocalAd(props){
   return <div className="localAd"/>;
@@ -17,12 +26,14 @@ class MapContainer extends React.Component {
 
   constructor(props) {
     super(props);
+    this.line = null;
     this.zoomedIn = true;
     this.platform = null;
     this.layers = null;
     this.map = null;
     this.mapEvents = null;
     this.center = {lat: 50.090463, lng: 14.439198};
+    this.added = false
   }
 
   componentDidMount() {
@@ -40,8 +51,11 @@ class MapContainer extends React.Component {
         zoom: 16,
         center: this.center,
     });
-
+    var kk = this.map;
     var center = this.center;
+    var circle = new window.H.map.Circle(center, 50);
+    kk.addObject(circle);
+
     var points = [
       {lat: 50.088368, lng: 14.415394},
       {lat: 50.091416, lng: 14.417622},
@@ -56,31 +70,34 @@ class MapContainer extends React.Component {
       {lat: 50.090625, lng: 14.469391},
       {lat: 50.091341, lng: 14.468275}
     ];
-    var kk = this.map;
-    var linestring = new window.H.geo.LineString();
-    points.forEach(function(point) {
-      linestring.pushPoint(point);
-      if(point != center) {
-        var circle = new window.H.map.Circle(point, 50);
-        kk.addObject(circle);
-      } else {
-        var icon = new window.H.map.Icon('icon/busstop.png');
 
-      // Create a marker using the previously instantiated icon:
-        var marker = new window.H.map.Marker(center, { icon: icon });
+    var icon = new window.H.map.Icon(bS);
+  // Create a marker using the previously instantiated icon:
+    var marker = new window.H.map.Marker(center, { icon: icon });
+  // Add the marker to the map:
+    kk.addObject(marker);
 
-      // Add the marker to the map:
-        kk.addObject(marker);
+
+
+      var attrLoc = [{lat: 50.088761, lng: 14.450217}, {lat: 50.102308, lng: 14.434122}, {lat: 50.079469, lng: 14.434355}, {lat: 50.087486, lng: 14.428314}, {lat: 50.088154, lng: 14.430731}];
+      var attrLogo = [nMAV, nG, nM, tPT, mOC];
+      var attr = [];
+
+      for(var i = 0; i < attrLoc.length; i++) {
+
+        var icon = new window.H.map.Icon(attrLogo[i]);
+
+          var marker = new window.H.map.Marker(attrLoc[i], {icon: icon});
+
+          this.map.addObject(marker);
+
+          attr.push(marker);
       }
 
-    });
 
-// Initialize a polyline with the linestring:
-  var polyline = new window.H.map.Polyline(linestring, { style: { lineWidth: 10 }});
 
 // Add the polyline to the map:
-  this.map.addObject(polyline);
-    console.log(this.map);
+  // this.map.addObject(polyline);
     var mapEvents = new window.H.mapevents.MapEvents(this.map);
     // Add event listener:
     var ii = this.zoomedIn;
@@ -97,9 +114,12 @@ class MapContainer extends React.Component {
 }
 
 
+render() {
+  // if (!this.added) {
+  //   this.addLines();
+  // }
 
-  render() {
-    return (<div id="here-map" className="map"/>);
+  return (<div id="here-map" className="map"/>);
   }
 
 }
