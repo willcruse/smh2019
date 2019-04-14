@@ -200,6 +200,8 @@ render() {
 
 }
 
+var mySpecialThing = 0;
+
 function Info(props) {
     return (<div className="other"><font face="Courier New" size="6">
     <table><tbody>
@@ -220,49 +222,13 @@ function calcTime(offset) {
 class OtherComp extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      count: 0,
-      res: LocalAd()
-    };
-  }
-
-  componentDidMount() {
-    this.timerID = setInterval (
-      () => this.change(),
-      15000
-    );
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.timerID);
-  }
-
-  change() {
-    if (this.state.count % 2 === 0) {
-      this.setState({
-        count: count+1,
-        res: Info(weather)
-      });
-      clearInterval(this.timerID);
-      this.timerID = setInterval (
-        () => this.change(),
-          15000
-      );
-    } else {
-      this.setState({
-        count: count+1,
-        res: LocalAd()
-      });
-      clearInterval(this.timerID);
-      this.timerID = setInterval (
-        () => this.change(),
-        15000
-      );
-    }
   }
 
   render() {
-    return this.state.res
+    if (mySpecialThing%2==0) {
+      return LocalAd();
+    }
+    return Info(weather);
   }
 }
 
@@ -328,9 +294,9 @@ function fetchData() {
        "tim": ti,
        "iconsrc": iconsrc
      };
-     const loaded = LoadedApp();
-     ReactDOM.render(loaded,
-     document.getElementById("root"));
+   //   const loaded = LoadedApp();
+   //   ReactDOM.render(loaded,
+   //   document.getElementById("root"));
    });
 }
 
@@ -401,10 +367,18 @@ fetchRoutesThrough();
 
 setInterval(
   function () {
+    const ak = LoadedApp(routeNa);
+    ReactDOM.render(ak, document.getElementById("root"));
     fetchBusTimes();
     fetchData();
     fetchBusTimes();
-    const ak = LoadedApp(routeNa);
-    ReactDOM.render(ak, document.getElementById("root"));},
-  1050
+  },
+  1005
+);
+
+setInterval(
+  function () {
+    mySpecialThing++;
+  },
+  5000
 );
